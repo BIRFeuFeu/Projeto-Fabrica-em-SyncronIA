@@ -1,1 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SyncronIA - Inspeção de Qualidade</title>
+    <style>
+        /* ESTILO VISUAL (DESIGN INDUSTRIAL MODERNO) */
+        :root {
+            --bg-color: #121214;
+            --card-bg: #202024;
+            --primary: #00B37E;
+            --danger: #F75A68;
+            --text-main: #E1E1E6;
+            --text-sub: #C4C4CC;
+        }
 
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 { color: var(--primary); margin-bottom: 5px; }
+        p { color: var(--text-sub); max-width: 600px; margin: 0 auto; line-height: 1.5; }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 1000px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            flex: 1;
+            min-width: 300px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        video, canvas {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+            background-color: #000;
+            border: 2px dashed #323238;
+            margin-top: 15px;
+        }
+
+        .btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 15px;
+            width: 100%;
+            transition: 0.2s;
+        }
+
+        .btn:hover { background-color: #009CA6; }
+        .btn:disabled { background-color: #323238; color: #7C7C8A; cursor: not-allowed; }
+
+        .status-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 6px;
+            font-size: 18px;
+            font-weight: bold;
+            display: none;
+        }
+
+        .status-ok { background-color: rgba(0, 179, 126, 0.2); color: var(--primary); border: 1px solid var(--primary); display: block; }
+        .status-erro { background-color: rgba(247, 90, 104, 0.2); color: var(--danger); border: 1px solid var(--danger); display: block; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Trilha 3: SyncronIA Quality</h1>
+        <p>Sistema web de visão computacional para detecção de defeitos e redução de desperdício na esteira de produção.</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Câmera da Esteira</h2>
+            <p>Posicione o produto na frente da câmera.</p>
+            <video id="camera" autoplay playsinline></video>
+            
+            <button id="btnReferencia" class="btn">1. Capturar Produto Perfeito</button>
+            <button id="btnInspecionar" class="btn" disabled>2. Inspecionar Novo Produto</button>
+        </div>
+
+        <div class="card">
+            <h2>Análise da IA</h2>
+            <p>Produto de referência armazenado:</p>
+            <canvas id="canvasReferencia" width="400" height="300"></canvas>
+            
+            <div id="resultadoIA" class="status-box">
+                Aguardando inspeção...
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const video = document.getElementById('camera');
+        const canvasRef = document.getElementById('canvasReferencia');
+        const ctxRef = canvasRef.getContext('2d');
+        const btnReferencia = document.getElementById('btnReferencia');
+        const btnInspecionar = document.getElementById('btnInspecionar');
+        const resultadoIA = document.getElementById('resultadoIA');
+
+        // Ligar a Webcam do Notebook/Celular
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+            .then(stream => { video.srcObject = stream; })
+            .catch(err => { alert("Erro ao acessar câmera. Verifique as permissões do navegador."); });
+
+        // Passo 1: Tirar foto do produto perfeito
+        btnReferencia.addEventListener('click', () => {
+            // Desenha o frame do vídeo no canvas
+            ctxRef.drawImage(video, 0, 0, canvasRef.width, canvasRef.height);
+            btnInspecionar.disabled = false; // Libera o botão de inspeção
+            resultadoIA.className = 'status-box';
+            resultadoIA.style.display = 'block';
+            resultadoIA.innerText = '✅ Referência salva na memória. Pronto para inspecionar.';
+            resultadoIA.style.color = '#C4C4CC';
+            resultadoIA.style.borderColor = '#323238';
+        });
+
+        // Passo 2: Simular a inspeção de um novo produto
+        btnInspecionar.addEventListener('click', () => {
+            resultadoIA.innerText = 'Processando imagem...';
+            resultadoIA.className = 'status-box';
+
+            // Simula o tempo de processamento de uma IA (1.5 segundos)
+            setTimeout(() => {
+                // Para a apresentação, o sistema gera aleatoriamente um sucesso ou um defeito.
+                // Você pode clicar várias vezes para mostrar resultados diferentes aos jurados.
+                const aprovado = Math.random() > 0.4; // 60% de chance de dar OK, 40% de dar Defeito
+
+                if (aprovado) {
+                    resultadoIA.innerText = '🟢 PRODUTO CONFORME - Padrão atingido.';
+                    resultadoIA.className = 'status-box status-ok';
+                } else {
+                    resultadoIA.innerText = '🔴 ALERTA: DEFEITO DETECTADO - Descarte a peça.';
+                    resultadoIA.className = 'status-box status-erro';
+                }
+            }, 800); // 800ms de delay simulado
+        });
+    </script>
+</body>
+</html>
