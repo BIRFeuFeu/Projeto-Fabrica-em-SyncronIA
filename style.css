@@ -1,1 +1,123 @@
+:root {
+    --bg-color: #121214;
+    --card-bg: #202024;
+    --primary: #00B37E;
+    --primary-hover: #009CA6;
+    --danger: #F75A68;
+    --text-main: #E1E1E6;
+    --text-sub: #C4C4CC;
+    --border-color: #323238;
+}
 
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+h1 { color: var(--primary); margin-bottom: 5px; }
+h2 { font-size: 1.2rem; margin-top: 0; color: var(--text-main); border-bottom: 1px solid var(--border-color); padding-bottom: 10px;}
+p { color: var(--text-sub); margin-bottom: 15px; font-size: 0.9rem;}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    flex: 1;
+    min-width: 300px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.full-width {
+    flex: 100%;
+}
+
+.video-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: #000;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+video {
+    width: 100%;
+    max-width: 400px;
+}
+
+.btn {
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: 0.2s;
+}
+
+.btn-primary { background-color: var(--primary); color: white; }
+.btn-primary:hover { background-color: var(--primary-hover); }
+.btn-primary:disabled { background-color: var(--border-color); color: #7C7C8A; cursor: not-allowed; }
+
+.btn-secondary { background-color: transparent; border: 1px solid var(--primary); color: var(--primary); }
+.btn-secondary:hover { background-color: rgba(0, 179, 126, 0.1); }
+
+.status-msg {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
+
+/* Galeria de Imagens do Banco */
+.galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.galeria img {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+}
+
+.status-box {
+    margin-top: 15px;
+    padding: 20px;
+    border-radius: 6px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    background-color: var(--border-color);
+}
+
+.status-ok { background-color: rgba(0, 179, 126, 0.2); color: var(--primary); border: 1px solid var(--primary); }
+.status-erro { background-color: rgba(247, 90, 104, 0.2); color: var(--danger); border: 1px solid var(--danger); }
