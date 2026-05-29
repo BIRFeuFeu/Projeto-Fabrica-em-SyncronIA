@@ -1,8 +1,8 @@
 // ==========================================
 // 1. CONFIGURAÇÃO DO SUPABASE
 // ==========================================
-const SUPABASE_URL = 'COLE_SUA_URL_DO_SUPABASE_AQUI';
-const SUPABASE_ANON_KEY = 'COLE_SUA_CHAVE_ANON_AQUI';
+const SUPABASE_URL = 'https://pbhvxalycslzmgpznkpe.supabase.co';
+const SUPABASE_ANON_KEY = 'sb_publishable_jnJhJVxZFyP2YY40Gq07cw_KB0egWxI';
 
 // Inicializando o cliente (A biblioteca já foi importada no HTML)
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
