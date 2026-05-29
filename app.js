@@ -22,9 +22,29 @@ const resultadoInspecao = document.getElementById('resultadoInspecao');
 // ==========================================
 // 3. ATIVAR CÂMERA AO ABRIR O SITE
 // ==========================================
-navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
-    .then(stream => { video.srcObject = stream; })
-    .catch(err => { alert("Erro ao acessar câmera. Verifique as permissões do navegador."); });
+// ==========================================
+// 3. ATIVAR CÂMERA AO ABRIR O SITE
+// ==========================================
+async function iniciarCamera() {
+    try {
+        // Tenta ligar a câmera. O ideal é a traseira (environment), 
+        // mas se não tiver (como em notebooks), ele usa a webcam padrão.
+        const stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { facingMode: 'ideal' } 
+        }).catch(() => {
+            // Fallback de segurança absoluto para qualquer dispositivo
+            return navigator.mediaDevices.getUserMedia({ video: true });
+        });
+        
+        video.srcObject = stream;
+        
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao ligar a câmera: " + err.message + "\nVerifique se você permitiu o uso da câmera no navegador.");
+    }
+}
+
+iniciarCamera();
 
 // ==========================================
 // 4. FUNÇÃO: TIRAR FOTO E ENVIAR PARA SUPABASE
